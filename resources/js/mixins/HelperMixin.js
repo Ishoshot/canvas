@@ -1,8 +1,9 @@
 import md5 from 'md5'
 import truncate from 'lodash/truncate'
 import isEmpty from 'lodash/isEmpty'
+import isAfter from 'date-fns/isAfter'
+import isBefore from 'date-fns/isBefore'
 import numeral from 'numeral'
-import moment from "moment";
 
 export default {
     computed: {
@@ -29,9 +30,7 @@ export default {
          * @returns {boolean}
          */
         isScheduled(date) {
-            return moment(date).isAfter(
-                moment(new Date()).format().slice(0, 19).replace('T', ' ')
-            )
+            return !isEmpty(date) && isAfter(new Date(date), new Date())
         },
 
         /**
@@ -41,8 +40,7 @@ export default {
          * @returns {boolean}
          */
         isPublished(date) {
-            return moment(date).isBefore(
-                moment(new Date()).format().slice(0, 19).replace('T', ' '))
+            return !isEmpty(date) && isBefore(new Date(date), new Date())
         },
 
         /**

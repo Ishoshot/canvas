@@ -30,7 +30,7 @@
                     <div class="col-md-8 my-3">
                         <p class="text-muted mb-0">
                             {{ trans.app.published }}
-                            {{ moment(post.published_at).format('MMM D, YYYY') }}
+                            {{ format(post.published_at, 'MMM D, YYYY') }}
                         </p>
                         <h1>{{ post.title }}</h1>
                     </div>
@@ -187,6 +187,7 @@
 </template>
 
 <script>
+    import format from 'date-fns/format'
     import NProgress from 'nprogress'
     import Tooltip from '../../directives/Tooltip'
     import LineChart from '../../components/LineChart'
@@ -220,6 +221,7 @@
                 visitMonthOverMonthDirection: null,
                 visitMonthOverMonthPercentage: null,
                 traffic: null,
+                format,
                 isReady: false,
                 trans: JSON.parse(Canvas.translations),
             }

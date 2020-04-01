@@ -13,7 +13,7 @@
                 <div class="d-flex justify-content-between my-3">
                     <h1>{{ trans.app.posts_simple }}</h1>
 
-                    <select name="" id="" v-model="postType" @change="changeType" class="my-auto ml-auto w-auto bg-transparent custom-select border-0">
+                    <select name="type" v-model="postType" @change="changeType" class="my-auto ml-auto w-auto bg-transparent custom-select border-0">
                         <option value="published">{{ trans.app.published }} ({{ publishedCount }})</option>
                         <option value="draft">{{ trans.app.draft }} ({{ draftCount }})</option>
                     </select>
@@ -38,14 +38,14 @@
                                         </p>
                                         <p class="text-muted mb-0">
                                         <span v-if="isPublished(post.published_at)">
-                                            {{ trans.app.published}} {{ moment(post.published_at).locale(Canvas.locale).fromNow() }}
+                                            {{ trans.app.published}} {{ formatDistance(new Date(post.published_at), new Date(), { addSuffix: true }) }}
                                         </span>
 
                                             <span v-if="isDraft(post.published_at) && !isScheduled(post.published_at)" class="text-danger">{{ trans.app.draft }}</span>
 
                                             <span v-if="isScheduled(post.published_at)" class="text-danger">{{ trans.app.scheduled }}</span>
 
-                                            ― {{ trans.app.updated }} {{ moment(post.updated_at).locale(Canvas.locale).fromNow() }}
+                                            ― {{ trans.app.updated }} {{ formatDistance(new Date(post.updated_at), new Date(), { addSuffix: true }) }}
                                         </p>
                                     </div>
                                     <div class="ml-auto d-none d-lg-block pl-3">
@@ -87,6 +87,7 @@
 </template>
 
 <script>
+    import formatDistance from 'date-fns/formatDistance';
     import isEmpty from 'lodash/isEmpty'
     import NProgress from 'nprogress'
     import Hover from "../../directives/Hover";
@@ -114,6 +115,7 @@
                 postType: 'published',
                 infiniteId: +new Date(),
                 trans: JSON.parse(Canvas.translations),
+                formatDistance
             }
         },
 
